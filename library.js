@@ -19,35 +19,40 @@ const cb = document.querySelectorAll('#check')
 submit.addEventListener('click', addBook);
 
 function addBook() {
-    let title = document.createElement('td');
-    title.setAttribute('id',`${bookTitle.value}`)
-    title.innerHTML = bookTitle.value;
+    if(!bookTitle.value && !bookAuthor.value){
+        alert('Please input a title and/or author')
+    } else{
+        let title = document.createElement('td');
+        title.setAttribute('id',`${bookTitle.value}`)
+        title.innerHTML = bookTitle.value;
 
-    let author = document.createElement('td');
-    author.innerHTML = bookAuthor.value;
+        let author = document.createElement('td');
+        author.innerHTML = bookAuthor.value;
 
-    let check = document.createElement('td');
-    let checkbox = document.createElement('input');
-    checkbox.type = "checkbox";
-    checkbox.setAttribute('id', 'check');
-    checkbox.addEventListener('click', bookRead);
-    check.appendChild(checkbox);
+        let check = document.createElement('td');
+        let checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.setAttribute('id', 'check');
+        checkbox.addEventListener('click', bookRead);
+        check.appendChild(checkbox);
 
-    let remove = document.createElement('td');
-    let button = document.createElement('button');
-    button.innerHTML = 'Remove';
-    button.addEventListener('click', () => {
-        for(let property in book){
-            book[property].setAttribute('id','delete');
-        }
-        removeBook();
-    });
-    remove.appendChild(button);
+        let remove = document.createElement('td');
+        let button = document.createElement('button');
+        button.innerHTML = 'Remove';
+        button.setAttribute('id','remove')
+        remove.addEventListener('click', () => {
+            for(let property in book){
+                book[property].setAttribute('id','delete');
+            }
+            removeBook();
+        });
+        remove.appendChild(button);
 
-    let book = new Book(title, author, check, remove);
-    library.push(book);
-    console.log(library);
-    addToLibrary(book);
+        let book = new Book(title, author, check, remove);
+        library.push(book);
+        // console.log(library);
+        addToLibrary(book);
+    }
 };
 
 function addToLibrary(book) {
@@ -69,7 +74,7 @@ function bookRead(){
             }
         } else{
             for(let property in library[i]){
-                library[i][property].style.background = 'green'
+                library[i][property].style.background = 'lightgreen'
             }
         }
     }
@@ -80,7 +85,7 @@ function removeBook(){
         let status = library[i]['remove'].getAttribute('id');
         if(status === 'delete'){
             library.splice(i,1);
-            console.log(library)
+            // console.log(library)
         }
         const deleted = document.querySelectorAll('#delete');
         deleted.forEach((element) => element.remove())
