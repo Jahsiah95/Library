@@ -13,6 +13,8 @@ const submit = document.querySelector('.add-book');
 const table = document.querySelector('table');
 const tbody = document.querySelector('tbody');
 const body = document.querySelector('body');
+const cb = document.querySelectorAll('#check')
+
 
 submit.addEventListener('click', addBook);
 
@@ -27,6 +29,8 @@ function addBook() {
     let check = document.createElement('td');
     let checkbox = document.createElement('input');
     checkbox.type = "checkbox";
+    checkbox.setAttribute('id', 'check');
+    checkbox.addEventListener('click', bookRead);
     check.appendChild(checkbox);
 
     let remove = document.createElement('td');
@@ -34,7 +38,7 @@ function addBook() {
     button.innerHTML = 'Remove';
     button.addEventListener('click', () => {
         for(let property in book){
-            book[property].setAttribute('id','delete')
+            book[property].setAttribute('id','delete');
         }
         removeBook();
     });
@@ -42,7 +46,7 @@ function addBook() {
 
     let book = new Book(title, author, check, remove);
     library.push(book);
-    console.log(library)
+    console.log(library);
     addToLibrary(book);
 };
 
@@ -53,6 +57,23 @@ function addToLibrary(book) {
         tr.appendChild(book[property]);
     }
 };
+
+
+
+function bookRead(){
+    for(let i = 0; i < library.length; i++){
+        let status = library[i]['check'].querySelector('#check');
+        if(status.checked != true){
+            for(let property in library[i]){
+            library[i][property].style.background = 'white';                
+            }
+        } else{
+            for(let property in library[i]){
+                library[i][property].style.background = 'green'
+            }
+        }
+    }
+}
 
 function removeBook(){
     for(let i = 0; i < library.length; i++){
